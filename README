@@ -1,0 +1,7 @@
+base web app on shot web server and mutant language
+
+[build]
+tup init
+tup variant configs/debug.config
+tup
+mutant
