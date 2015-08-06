@@ -1,0 +1,19 @@
+
+class MainView extends web.View {
+  override void create() {
+    element = <div>
+      <journal.Journal /*journal_=world.World.instance().mainJournal*/ />
+    </div>;
+  }
+
+  override void enter() {
+    if isEnter { return; }
+    base.enter();
+  }
+
+  override void exit() {
+    if !isEnter { return; }
+
+    base.exit();
+  }
+}

@@ -1,0 +1,16 @@
+include_rules
+
+LIBS = \
+-lboost_system\
+-lmongoclient\
+-lshot\
+-ljournal\
+-limgutil
+
+#ifeq (@(DEBUG),1)
+RPATH = -Wl,-rpath=$(SHOT)/$(BUILD)/shot:$(IMGUTIL)/$(BUILD)/imgutil:"$"ORIGIN
+#endif
+
+: foreach *.cpp |> !cc |> %B.o {objs}
+#: {objs} |> $(CC) $(LFLAGS) $(RPATH) -o %o %f $(LIBS) |> %d
+: {objs} |> !exe |>

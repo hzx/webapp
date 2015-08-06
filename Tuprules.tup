@@ -1,0 +1,34 @@
+export HOME
+SHOT = $HOME/projects/shot
+SHOTLIBS = $HOME/projects/shot-libs
+IMGUTIL = $HOME/projects/imgutil
+WR = $HOME/projects/wr
+
+ifeq (@(DEBUG),1)
+BUILD=build-debug
+DEBUG_OPT=-DDEBUG=1
+else
+BUILD=build-release
+DEBUG_OPT=
+endif
+
+CC = clang++
+OPT += -Wall -O2 -std=c++11 $(DEBUG_OPT)
+
+CFLAGS += -I$(TUP_CWD)/server\
+-I$(SHOT)\
+-I$(SHOTLIBS)\
+-I$(IMGUTIL)\
+-I/usr/include
+
+LFLAGS += -L$(TUP_CWD)/server\
+-L$(SHOT)/$(BUILD)/shot\
+-L$(SHOTLIBS)/$(BUILD)/journal\
+-L$(IMGUTIL)/$(BUILD)/imgutil\
+-L/usr/local/lib
+
+!cc = |> $(CC) $(OPT) $(CFLAGS) -c %f -o %o |> %B.o
+!ccp = |> $(CC) $(OPT) $(CFLAGS) -fPIC -c %f -o %o |> %B.o
+!exe = |> $(CC) $(OPT) $(LFLAGS) $(RPATH) -o %o %f $(LIBS) |> %d
+!lib = |> $(CC) $(OPT) $(LFLAGS) $(RPATH) -shared -o %o %f $(LIBS) |> lib%d.so
+!ar = |> ar crs %o %f |> lib%d.a

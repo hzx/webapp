@@ -1,0 +1,94 @@
+
+class AppView extends web.View {
+  auto scrollbar = <ui.Scrollbar style_=ui_style.scrollbar/>;
+  tag content = <div style=style.content></div>;
+  tag navMain = <div style=style.navMain hover=style.navItem_hover active=style.navItem_active onclick=onMainClick onmouseenter=onMainMouseenter onmouseleave=onMainMouseleave> "главная" </div>;
+  tag navContact = <div style=style.navContact hover=style.navItem_hover active=style.navItem_active onclick=onContactClick onmouseenter=onContactMouseenter onmouseleave=onContactMouseleave> "контакты" </div>;
+  tag navMenu = <div style=style.navMenu>
+    {navMain}
+    {navContact}
+    <div style=style.clear></div>
+  </div>;
+  tag scrollarea = <div style=style.scrollarea>
+    {content}
+    <div style=style.footer></div>
+  </div>;
+
+  bool isMenuShow = false;
+  tag nav_selected = null;
+
+  override void create() {
+    element = <div style=style.app data="app">
+      {scrollbar}
+      <div style=style.nav onclick=onNavClick></div>
+      {navMenu}
+      {scrollarea}
+    </div>;
+
+    scrollbar.scrollarea = scrollarea.node;
+  }
+
+  bool selectNavButton(tag button) {
+    if nav_selected is button { return false; }
+    if nav_selected { nav_selected.setState(web.STATE_NORMAL); }
+    button.setState(web.STATE_ACTIVE);
+    nav_selected = button;
+    return true;
+  }
+
+  void selectNavMain() {
+    selectNavButton(navMain);
+  }
+
+  bind void onMainClick(object e) {
+    if selectNavButton(navMain) {
+      web.Router.instance().dispatch([""]);
+    }
+  }
+
+  bind void onMainMouseenter(object e) {
+    if nav_selected is navMain { return; }
+    navMain.setState(web.STATE_HOVER);
+  }
+
+  bind void onMainMouseleave(object e) {
+    if nav_selected is navMain { return; }
+    navMain.setState(web.STATE_NORMAL);
+  }
+
+  void selectNavContact() {
+    selectNavButton(navContact);
+  }
+
+  bind void onContactClick(object e) {
+    if selectNavButton(navContact) {
+      web.Router.instance().dispatch(["contact"]);
+    }
+  }
+
+  bind void onContactMouseenter(object e) {
+    if nav_selected is navContact { return; }
+    navContact.setState(web.STATE_HOVER);
+  }
+
+  bind void onContactMouseleave(object e) {
+    if nav_selected is navContact { return; }
+    navContact.setState(web.STATE_NORMAL);
+  }
+
+  bind void onNavClick(object e) {
+    if isMenuShow {
+      navMenu.node.style.display = "none";
+    } else {
+      navMenu.node.style.display = "block";
+    }
+    isMenuShow = !isMenuShow;
+  }
+
+  static AppView instance_ = null;
+
+  static AppView instance() {
+    if AppView.instance_ is null { AppView.instance_ = new AppView(); }
+    return AppView.instance_;
+  }
+}

@@ -1,0 +1,9 @@
+-I /home/dem/projects/webapp/client
+-I /home/dem/projects/mutant-libs
+
+login.loader -o build-debug/bin/static/login.loader.js
+login -o build-debug/bin/static/login.js -s login.loader
+pub.loader -o build-debug/bin/static/pub.loader.js
+pub -o build-debug/bin/static/pub.js -s pub.loader
+admin.loader -o build-debug/bin/static/admin.loader.js
+admin -o build-debug/bin/static/admin.js -s admin.loader

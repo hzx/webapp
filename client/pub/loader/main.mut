@@ -1,0 +1,12 @@
+import browser;
+import apploader;
+
+extern window;
+
+
+void main() {
+  browser.addEvent(window, "load", void() {
+    apploader.App.instance().initUrl = "/init";
+    apploader.App.instance().main();
+  });
+}

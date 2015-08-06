@@ -1,0 +1,119 @@
+
+app {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  /* overflowY: scroll; */
+  overflow: hidden;
+}
+
+/* app_scrollable { */
+/*   overflow: auto; */
+/* } */
+
+scrollarea {
+  /* width: 1200px; */
+  /* minHeight: 100%; */
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 8px; // before scrollbar
+  bottom: 0;
+  overflow: hidden;
+  backgroundColor: #808080;
+  /* backgroundColor: #e0e000; */
+  /* margin: 0 auto; */
+
+  /* background: url(img/bg.png) top left repeat transparent; */
+  /* backgroundColor: #f000f0; */
+}
+
+/* scrollareaWrap { */
+/*   minWidth: 1200px; */
+/*   minHeight: 100%; */
+/*   margin: 0 auto; */
+/* } */
+
+nav {
+  /* height: 40px; */
+  position: absolute;
+  right: 36px;
+  bottom: 0;
+  width: 32px;
+  height: 32px;
+  /* backgroundColor: #808080; */
+  /* backgroundColor: #1c5c9d; */
+  background: url(img/menu.png) center center no-repeat transparent;
+  /* overflow: hidden; */
+  zIndex: 100;
+  cursor: pointer;
+}
+
+
+navMenu {
+  display: none;
+  position: absolute;
+  right: 36px;
+  bottom: 32px;
+  width: 200px;
+  zIndex: 101;
+}
+
+navItem {
+  /* float: left; */
+  /* cssFloat: left; */
+  /* height: 24px; */
+  padding: 6px 16px;
+  cursor: pointer;
+  webkitUserSelect: none;
+  MozUserSelect: none;
+  msUserSelect: none;
+  userSelect: none;
+  backgroundColor: #8fb9e5;
+  color: #202020;
+}
+
+navItem_hover {
+  backgroundColor: #c9def3;
+}
+
+navItem_active {
+  backgroundColor: #3c6794;
+  color: #e0e0e0;
+  cursor: default;
+}
+
+navMain: navItem {
+}
+
+navAbout: navItem {
+}
+
+navCatalog: navItem {
+}
+
+navCatalogPrice: navItem {
+}
+
+navSale: navItem {
+}
+
+navPrice: navItem {
+}
+
+navVacancy: navItem {
+}
+
+navContact: navItem {
+}
+
+content {
+  /* height: 1200px; */
+}
+
+footer {
+  padding: 8px 16px;
+  color: #ffffff;
+}

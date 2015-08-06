@@ -1,0 +1,6 @@
+
+class ContactView extends web.View {
+  override void create() {
+    element = <jeditor.Editor scrollarea=AppView.instance().scrollarea.node/>;
+  }
+}

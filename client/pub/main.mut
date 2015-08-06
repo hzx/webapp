@@ -1,0 +1,17 @@
+import browser;
+import web;
+import pub.style;
+import apploader;
+import common_views;
+import journal;
+import ui;
+import ui.style as ui_style;
+import world;
+
+extern window;
+
+
+void main() {
+  App.instance().main();
+  apploader.App.instance().hide();
+}

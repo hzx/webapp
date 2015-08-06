@@ -1,0 +1,17 @@
+
+class MainView extends web.View {
+  override void create() {
+    element = <jeditor.Editor scrollarea=AppView.instance().scrollarea.node/>;
+  }
+
+  override void enter() {
+    if isEnter { return; }
+    base.enter();
+  }
+
+  override void exit() {
+    if !isEneter { return; }
+
+    base.exit();
+  }
+}

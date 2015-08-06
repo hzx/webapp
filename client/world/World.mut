@@ -1,0 +1,15 @@
+
+class World {
+
+  // singleton
+  static World instance_ = null;
+  static World instance() {
+    if World.instance_ is null {
+      World.instance_ = new World();
+    }
+    return World.instance_;
+  }
+
+  World() {
+  }
+}

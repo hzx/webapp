@@ -1,0 +1,16 @@
+import browser;
+import web;
+import admin.style;
+import apploader;
+import journal.editor as jeditor;
+import journal;
+import common_views;
+import ui;
+import ui.style as ui_style;
+import world;
+
+
+void main() {
+  App.instance().main();
+  apploader.App.instance().hide();
+}

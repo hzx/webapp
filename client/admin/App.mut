@@ -1,0 +1,70 @@
+
+class App {
+  auto mainView = new MainView();
+  auto contactView = new ContactView();
+  auto page404 = new common_views.Page404View();
+
+  object lastSlugs = null;
+  auto view_selected = null;
+
+  void main() {
+    auto view = AppView.instance();
+    view.create();
+    page404.create();
+
+    web.appendTag(view);
+    view.enter();
+
+    web.appendTag(page404);
+    browser.hide(page404.getNode());
+
+    web.Router.instance().enter();
+    web.Router.instance().eventDispatch.listen(onRouteDispatch);
+    web.Router.instance().dispatchInitial();
+  }
+
+  bool selectView(object current) {
+    if view_selected is current { return false; }
+    auto view = AppView.instance();
+    view_selected = current;
+    view.content.clear();
+    if current.element is null {
+      current.create();
+    }
+    view.content.append(current);
+    return true;
+  }
+
+  bind void onRouteDispatch(object slugs) {
+    browser.hide(page404.getNode());
+    auto view = AppView.instance();
+    switch slugs[0] {
+      case "":
+        if selectView(mainView) {
+          view.selectNavMain();
+        }
+        break;
+      case "contact":
+        if selectView(contactView) {
+          view.selectNavContact();
+        }
+        break;
+      default:
+        if lastSlugs isnot null {
+          page404.backSlugs = lastSlugs;
+        }
+        page404.setUrl("/" + slugs.join("/"));
+        browser.show(page404.getNode());
+        return;
+    }
+
+    lastSlugs = slugs;
+  }
+
+  static App instance_ = null;
+
+  static App instance() {
+    if App.instance_ is null { App.instance_ = new App(); }
+    return App.instance_;
+  }
+}
