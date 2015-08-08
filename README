@@ -5,3 +5,9 @@ tup init
 tup variant configs/debug.config
 tup
 mutant
+
+[development workflow]
+build first
+cd build-debug/bin
+shotutil will run server and restart after any app files changed, browser
+autoreload current page
