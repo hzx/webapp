@@ -10,7 +10,7 @@ class MainView extends web.View {
   }
 
   override void exit() {
-    if !isEneter { return; }
+    if !isEnter { return; }
 
     base.exit();
   }
