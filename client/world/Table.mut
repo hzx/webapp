@@ -1,0 +1,7 @@
+
+enum Table {
+  USER = 1,
+  PAGE_ITEMS,
+  MAIN_PAGE,
+  CONTACT_PAGE,
+}

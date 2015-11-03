@@ -7,6 +7,8 @@
 #include "pub_handlers.h"
 #include "admin_handlers.h"
 #include "SitemapHandler.h"
+#include "SyncHandler.h"
+#include "UploadFileHandler.h"
 
 
 int main(int argc, const char *argv[]) {
@@ -27,6 +29,10 @@ int main(int argc, const char *argv[]) {
     {"init", shot::factory<pub::InitHandler>},
     {"", shot::factory<pub::MainHandler>},
     {"contact", shot::factory<pub::ContactHandler>},
+    {"get-page-items", shot::factory<pub::GetItemsHandler>},
+
+    {"sync", shot::factory<SyncHandler>},
+    {"add-file", shot::factory<UploadFileHandler>},
 
     {"admin", admin::factory},
 

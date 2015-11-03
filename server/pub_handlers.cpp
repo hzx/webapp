@@ -68,5 +68,33 @@ void ContactHandler::get() {
   response.content << templ.toString();
 }
 
+
+void GetItemsHandler::xget() {
+  // TODO: take all from params
+  /* std::string pageId = request->getParam(journal::Node::S_PAGE_ID.c_str()); */
+  /* std::string s_table = request->getParam(); */
+
+  if (request->slugs.size() != 3 or request->slugs[1].empty() or
+      request->slugs[2].empty()) {
+    response.status = shot::HTTP_400;
+    return;
+  }
+
+  std::string pageId = request->slugs[1];
+  std::string s_table = request->slugs[2];
+
+  int table;
+
+  try {
+    table = std::stoi(s_table);
+  } catch (...) {
+    response.status = shot::HTTP_400;
+    return;
+  }
+
+  response.setStreamHeader();
+  world.getPageItems(pageId, table, response.content);
+}
+
   
 } /* namespace pub */

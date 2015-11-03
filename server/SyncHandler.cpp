@@ -9,22 +9,44 @@ SyncHandler::SyncHandler() {}
 void SyncHandler::xpost() {
   int op;
   string s_op = request->getParam(S_SYNC_OP);
-  string name = request->getParam(S_SYNC_NAME);
+  string s_table = request->getParam(S_SYNC_NAME);
 
-  if (s_op.empty() or name.empty()) {
+  // debug
+  std::cout << "op: " << s_op << ", table: " << s_table << std::endl;
+
+  parentId = request->getParam(S_SYNC_PARENT_ID);
+  std::string s_polymorph = request->getParam(S_SYNC_POLYMORPH);
+
+  std::string s_parentField = request->getParam(S_SYNC_PARENT_FIELD);
+  if (!s_parentField.empty()) {
+    try {
+      parentField = std::stoi(s_parentField);
+    } catch (...) {
+    }
+  }
+
+  if (s_op.empty() or s_table.empty()) {
     response.status = shot::HTTP_400;
     return;
   }
 
   try {
-    op = std::atoi(s_op.data());
-    table = atoi(name.data());
+    op = std::stoi(s_op);
+    table = std::stoi(s_table);
   } catch (...) {
     op = SYNC_OP_NONE;
   }
 
   if (op == SYNC_OP_NONE) {
+    response.status = shot::HTTP_400;
     return;
+  }
+
+  if (not s_polymorph.empty()) {
+    try {
+      polymorph = std::stoi(s_polymorph);
+    } catch (...) {
+    }
   }
 
   response.setTextHeader();
@@ -61,10 +83,8 @@ void SyncHandler::opUpdate() {
     return;
   }
 
-  ostringstream updates;
-  world.update(table, id, params, updates);
-
-  response.content << updates.str();
+  world.update(table, id, params, parentId, parentField, polymorph,
+      response.content);
 }
 
 
@@ -72,15 +92,13 @@ void SyncHandler::opInsert() {
   string beforeId = request->getParam(S_SYNC_BEFOREID);
   string obj = request->getParam(S_SYNC_OBJ);
 
-  if (beforeId.empty() or obj.empty()) {
+  if (obj.empty()) {
     response.status = shot::HTTP_400;
     return;
   }
 
-  ostringstream updates;
-  /* world.insert(table, beforeId, obj, updates); */
-
-  response.content << updates.str();
+  world.insert(table, beforeId, obj, parentId, parentField, polymorph,
+      response.content);
 }
 
 
@@ -88,14 +106,16 @@ void SyncHandler::opAppend() {
   string obj = request->getParam(S_SYNC_OBJ);
 
   if (obj.empty()) {
+    // debug
+    std::cout << "SyncHandler.opAppend\n";
+
     response.status = shot::HTTP_400;
     return;
   }
 
-  ostringstream updates;
-  /* world.append(table, obj, updates); */
-
-  response.content << updates.str();
+  std::string beforeId;
+  world.insert(table, beforeId, obj, parentId, parentField, polymorph,
+      response.content);
 }
 
 
@@ -107,7 +127,7 @@ void SyncHandler::opRemove() {
     return;
   }
 
-  /* world.remove(table, id); */
+  world.remove(table, id, parentId, parentField, polymorph);
 }
 
 
@@ -116,8 +136,10 @@ void SyncHandler::opMove() {
   string id = request->getParam(S_SYNC_ID);
   
   // empty beforeId allowed, means move to the end
-  if (id.empty()) {
-    response.status = shot::HTTP_400;
-    return;
-  }
+  /* if (id.empty()) { */
+  /*   response.status = shot::HTTP_400; */
+  /*   return; */
+  /* } */
+
+  world.move(table, id, beforeId, parentId, parentField);
 }

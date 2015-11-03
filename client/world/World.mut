@@ -1,8 +1,23 @@
 
 class World {
+  string syncUrl = "/sync";
+  string getArticlesUrl = "/get-articles";
+  string getArticleUrl = "/get-article/";
+  string getPageItemsUrl = "/get-page-items/";
 
-  // singleton
+  auto mainJournal = new journal_model.Journal();
+  auto mainJournalNet = net.collection(Table.MAIN_PAGE, syncUrl);
+
+  auto contactJournal = new journal_model.Journal();
+  auto contactJournalNet = net.collection(Table.CONTACT_PAGE, syncUrl);
+
+  World() {
+    mainJournal.link = mainJournalNet;
+    contactJournal.link = contactJournalNet;
+  }
+
   static World instance_ = null;
+
   static World instance() {
     if World.instance_ is null {
       World.instance_ = new World();
@@ -10,6 +25,67 @@ class World {
     return World.instance_;
   }
 
-  World() {
+  void init(string data) {
+    parseData(data);
+  }
+
+  void parseData(string data) {
+    auto rows = data.split(container.DELIM_ROW);
+
+    int row = 0;
+    while row < rows.length {
+      if row >= rows.length { break; }
+      row = parseTable(rows, row);
+    }
+  }
+
+  int parseTable(object rows, int left) {
+    object row = rows[left];
+    object fields = row.split(container.DELIM_FIELD);
+    int count = 1; // minimal for document
+
+    if fields.length is 0 { return left + 1; }
+
+    int tableNum = parseInt(fields[0]);
+
+    if fields.length > 1 {
+      count = parseInt(fields[1]);
+    }
+
+    for int i = 1; i <= count; ++i {
+      row = rows[left + i];
+      fields = row.split(container.DELIM_FIELD);
+      if fields.length is 0 { continue; }
+      parseTableData(tableNum, fields);
+    }
+
+    return left + 1 + count; // 1 - head, count - rows count
+  }
+
+  void parseTableData(int table, object fields) {
+    switch table {
+      case Table.MAIN_PAGE:
+        mainJournal.unserializeLocal(fields);
+        break;
+      case Table.CONTACT_PAGE:
+        contactJournal.unserializeLocal(fields);
+        break;
+    }
+  }
+
+  void getPageItems(container.ObservableCollection items,
+      string pageId, int table,
+      object success, object fail) {
+    auto buf = [getPageItemsUrl, pageId, "/", table];
+    string url = buf.join("");
+
+    browser.get(url, void (string response) { // success
+      items.clear();
+      journal_model.parsePageItems(response, items);
+
+      success();
+    }, void (int status, string response) { // fail
+      fail();
+    }, void () {}); // progress
   }
 }

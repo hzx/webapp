@@ -1,19 +1,23 @@
 
 class MainView extends web.View {
+  auto items_ = new container.ObservableCollection();
+
   override void create() {
+    auto w = world.World.instance();
+
     element = <div>
-      <journal.Journal /*journal_=world.World.instance().mainJournal*/ />
+      <journal.Journal journal_=w.mainJournal journalItems_=items_/>
     </div>;
   }
 
   override void enter() {
     if isEnter { return; }
     base.enter();
-  }
 
-  override void exit() {
-    if !isEnter { return; }
-
-    base.exit();
+    auto w = world.World.instance();
+    w.getPageItems(items_, w.mainJournal.id.value,
+        w.mainJournalNet.table, void () { // success
+    }, void () { // fail
+    });
   }
 }

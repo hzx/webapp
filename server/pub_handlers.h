@@ -56,6 +56,12 @@ public:
   void get();
 };
 
+
+class GetItemsHandler: public shot::Handler {
+public:
+  void xget();
+};
+
   
 } /* namespace pub */
 

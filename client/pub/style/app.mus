@@ -45,6 +45,11 @@ nav_item {
   padding: 6px 8px;
   fontSize: 14px;
   fontWeight: bold;
+  cursor: pointer;
+  webkitUserSelect: none;
+  MozUserSelect: none;
+  msUserSelect: none;
+  userSelect: none;
 }
 
 navMain: nav_item {
@@ -62,6 +67,9 @@ content {
 }
 
 footer {
+  padding: 16px;
+  backgroundColor: #e0e0e0;
+  color: #404040;
 }
 
 scrollarea {

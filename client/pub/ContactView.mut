@@ -1,8 +1,23 @@
 
 class ContactView extends web.View {
+  auto items_ = new container.ObservableCollection();
+
   override void create() {
+    auto w = world.World.instance();
+
     element = <div>
-      <journal.Journal journal_=world.World.instance().contactJournal/>
+      <journal.Journal journal_=w.contactJournal journalItems_=items_/>
     </div>;
+  }
+
+  override void enter() {
+    if isEnter { return; }
+    base.enter();
+
+    auto w = world.World.instance();
+    w.getPageItems(items_, w.contactJournal.id.value,
+        w.contactJournalNet.table, void () { // success
+    }, void () { // fail
+    });
   }
 }

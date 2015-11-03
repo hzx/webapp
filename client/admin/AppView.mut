@@ -1,30 +1,51 @@
 
 class AppView extends web.View {
   auto scrollbar = <ui.Scrollbar style_=ui_style.scrollbar/>;
+
   tag content = <div style=style.content></div>;
-  tag navMain = <div style=style.navMain hover=style.navItem_hover active=style.navItem_active onclick=onMainClick onmouseenter=onMainMouseenter onmouseleave=onMainMouseleave> "главная" </div>;
-  tag navContact = <div style=style.navContact hover=style.navItem_hover active=style.navItem_active onclick=onContactClick onmouseenter=onContactMouseenter onmouseleave=onContactMouseleave> "контакты" </div>;
+
+  tag footer = <div style=style.footer>
+    "© 2015 We make the world a better place."
+  </div>;
+
+  tag navMain = <div style=style.navMain hover=style.navItem_hover
+      active=style.navItem_active onclick=onMainClick
+      onmouseenter=onMainMouseenter onmouseleave=onMainMouseleave>
+    "ГЛАВНАЯ"
+  </div>;
+
+  tag navContact = <div style=style.navContact hover=style.navItem_hover
+      active=style.navItem_active onclick=onContactClick
+      onmouseenter=onContactMouseenter onmouseleave=onContactMouseleave>
+    "КОНТАКТЫ"
+  </div>;
+
   tag navMenu = <div style=style.navMenu>
     {navMain}
     {navContact}
   </div>;
+
   tag scrollarea = <div style=style.scrollarea>
     {content}
-    <div style=style.footer></div>
   </div>;
 
   bool isMenuShow = false;
   tag nav_selected = null;
 
   override void create() {
-    element = <div style=style.app data="app">
-      {scrollbar}
+    element = <div style=style.app>
+      /* {scrollbar} */
       <div style=style.nav onclick=onNavClick></div>
       {navMenu}
-      {scrollarea}
+      /* {scrollarea} */
+      {content}
+      {footer}
     </div>;
 
-    scrollbar.scrollarea = scrollarea.node;
+    /* scrollbar.scrollarea = scrollarea.node; */
+
+    // set current scroll node element
+    browser.pushScrollNode(element.node);
   }
 
   bool selectNavButton(tag button) {

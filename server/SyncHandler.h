@@ -1,7 +1,6 @@
 #ifndef KONFIRMAT_SYNCHANDLER_H
 #define KONFIRMAT_SYNCHANDLER_H
 
-
 #include <unordered_map>
 #include "shot/Handler.h"
 #include "shot/http.h"
@@ -19,6 +18,12 @@ int const SYNC_OBJ = 5;
 char const S_SYNC_OBJ[] = "5";
 int const SYNC_ID = 6;
 char const S_SYNC_ID[] = "6";
+int const SYNC_PARENT_ID = 7;
+char const S_SYNC_PARENT_ID[] = "7";
+int const SYNC_PARENT_FIELD = 8;
+char const S_SYNC_PARENT_FIELD[] = "8";
+int const SYNC_POLYMORPH = 9;
+char const S_SYNC_POLYMORPH[] = "9";
 
 int const SYNC_OP_NONE = 0;
 int const SYNC_OP_UPDATE = 1;
@@ -44,6 +49,9 @@ public:
   void opMove();
 
   int table;
+  std::string parentId;
+  int parentField = 0;
+  int polymorph = 0;
 };
 
 

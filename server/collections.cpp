@@ -3,13 +3,14 @@
 #include "collections.h"
 
 
-UserCollection::UserCollection(char const* table) {
+UserCollection::UserCollection(shot::DbClient* db, char const* table) {
+  this->db = db;
   this->table = table;
 }
 
 
 void UserCollection::genId(UserModel& user, std::ostream& updates) {
-  std::string id = newId();
+  std::string id = shot::newId();
   user.id.set(id);
   updates << shot::ID << DF << user.id.value << DF;
 }
@@ -18,7 +19,7 @@ void UserCollection::genId(UserModel& user, std::ostream& updates) {
 UserPtr UserCollection::get(std::string& id) {
   if (id.length() < shot::OID_SIZE) return nullptr;
 
-  bo obj = world.db.conn.findOne(table, BSON(shot::S_ID << mongo::OID(id)));
+  bson::bo obj = db->conn.findOne(table, BSON(shot::S_ID << mongo::OID(id)));
   if (obj.isEmpty()) return nullptr;
 
   UserPtr user(new UserModel());
@@ -29,7 +30,7 @@ UserPtr UserCollection::get(std::string& id) {
 
 
 UserPtr UserCollection::getByLogin(std::string& login) {
-  bo obj = world.db.conn.findOne(table, BSON(UserModel::S_LOGIN << login));
+  bson::bo obj = db->conn.findOne(table, BSON(UserModel::S_LOGIN << login));
   if (obj.isEmpty()) return nullptr;
 
   UserPtr user(new UserModel());
@@ -40,9 +41,11 @@ UserPtr UserCollection::getByLogin(std::string& login) {
 
 
 void UserCollection::update(std::string& id, UserModel& user, std::ostream& updates) {
-  bob builder;
+  bson::bob builder;
+
   user.toDbFormat(builder);
-  world.db.conn.update(table,
+
+  db->conn.update(table,
     BSON(shot::S_ID << mongo::OID(id)),
     BSON("$set" << builder.obj())
   );
@@ -54,14 +57,15 @@ void UserCollection::append(UserModel& user, std::ostream& updates) {
   if (user.password.value.length() > 0)
     user.password.set(shot::encodePassword(user.password.value));
 
-  bob builder;
+  bson::bob builder;
+
   user.toDbFormat(builder);
-  world.db.conn.insert(table, builder.obj());
+  db->conn.insert(table, builder.obj());
 }
 
 
 void UserCollection::remove(std::string& id) {
   if (id.length() < shot::OID_SIZE) return;
 
-  world.db.conn.remove(table, BSON(shot::S_ID << mongo::OID(id)));
+  db->conn.remove(table, BSON(shot::S_ID << mongo::OID(id)));
 }

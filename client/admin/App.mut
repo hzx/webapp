@@ -8,7 +8,13 @@ class App {
   auto view_selected = null;
 
   void main() {
+    auto w = world.World.instance();
+    auto l = apploader.App.instance();
     auto view = AppView.instance();
+
+    browser.Net.xsrf = l.xsrf;
+    w.init(l.data);
+
     view.create();
     page404.create();
 
