@@ -26,16 +26,19 @@ class World {
   }
 
   void init(string data) {
+    // debug
+    console.log("data: " + data);
+
     parseData(data);
   }
 
   void parseData(string data) {
     auto rows = data.split(container.DELIM_ROW);
 
-    int row = 0;
-    while row < rows.length {
-      if row >= rows.length { break; }
-      row = parseTable(rows, row);
+    int cursor = 0;
+    while cursor < rows.length {
+      if cursor >= rows.length { break; }
+      cursor = parseTable(rows, cursor);
     }
   }
 
@@ -44,15 +47,15 @@ class World {
     object fields = row.split(container.DELIM_FIELD);
     int count = 1; // minimal for document
 
-    if fields.length is 0 { return left + 1; }
-
+    // parse first row meta info for table
     int tableNum = parseInt(fields[0]);
-
     if fields.length > 1 {
       count = parseInt(fields[1]);
     }
 
     for int i = 1; i <= count; ++i {
+      if left + i >= rows.length { break; }
+
       row = rows[left + i];
       fields = row.split(container.DELIM_FIELD);
       if fields.length is 0 { continue; }

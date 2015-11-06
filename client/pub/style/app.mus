@@ -15,7 +15,7 @@ page {
   /* margin: 0 auto; */
 
   /* background: url(img/bg.png) top left repeat transparent; */
-  backgroundColor: #f000f0;
+  /* backgroundColor: #f000f0; */
 }
 
 pageWrap {
@@ -25,13 +25,13 @@ pageWrap {
 }
 
 header {
-height: 100px;
-backgroundColor: #e0e0e0;
+  height: 100px;
+  backgroundColor: #e0e0e0;
 }
 
 nav {
   /* height: 40px; */
-  /* marginBottom: 24px; */
+  marginBottom: 24px;
   backgroundColor: #808080;
   overflow: hidden;
 }
@@ -42,7 +42,7 @@ navMenu {
 nav_item {
   float: left;
   cssFloat: left;
-  padding: 6px 8px;
+  padding: 16px 6px;
   fontSize: 14px;
   fontWeight: bold;
   cursor: pointer;
@@ -50,6 +50,7 @@ nav_item {
   MozUserSelect: none;
   msUserSelect: none;
   userSelect: none;
+  backgroundColor: #f0f0f0;
 }
 
 navMain: nav_item {

@@ -3,3 +3,5 @@ include_rules
 : server/server |> cp %f %o |> bin/%b
 : robots.txt |> cp %f %o |> bin/static/%b
 : favicon.ico |> cp %f %o |> bin/static/%b
+: img/* |> cp %f %o |> bin/static/img/%b
+: data/* |> cp %f %o |> bin/static/data/%b

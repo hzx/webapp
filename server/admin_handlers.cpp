@@ -43,8 +43,9 @@ void InitHandler::xget() {
   setXsrf();
   response.setStreamHeader();
   response.content << getXsrf() <<
-    shot::DELIM_FIELD << app.adminUrl <<
-    shot::DELIM_FIELD;// << data;
+    shot::DELIM_FIELD << app.adminUrl << shot::DELIM_FIELD;
+
+  world.storeInitColls(response.content);
 }
 
 

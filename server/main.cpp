@@ -2,6 +2,7 @@
 #include "shot/Options.h"
 #include "shot/Server.h"
 #include "shot/system_handlers.h"
+#include "shot/utils.h"
 #include "global.h"
 #include "login_handlers.h"
 #include "pub_handlers.h"
@@ -21,6 +22,10 @@ int main(int argc, const char *argv[]) {
 
   options.cookieSecret = "";
   options.dbname = "test";
+  options.tmp = "/tmp/webapp/";
+
+  if (not shot::pathExists(options.tmp.data()))
+    shot::makeDir(options.tmp);
 
   shot::type_factories factories = {
     {"login", login::factory},

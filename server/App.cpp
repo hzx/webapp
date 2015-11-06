@@ -2,6 +2,7 @@
 #include <sstream>
 #include "shot/utils.h"
 #include "shot/url.h"
+#include "imgutil/imgutil.h"
 #include "global.h"
 
 
@@ -11,6 +12,8 @@ using std::endl;
 
 
 int App::init() {
+  initLib();
+
   pubUrl = shot::staticUrl("/static/pub.js");
   loginUrl = shot::staticUrl("/static/login.js");
   adminUrl = shot::staticUrl("/static/admin.js");

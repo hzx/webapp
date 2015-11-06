@@ -1,6 +1,40 @@
 
 class ContactView extends web.View {
+  auto items_ = new container.ObservableCollection();
+
+  ContactView() {
+    auto w = world.World.instance();
+
+    items_.link = w.contactJournalNet;
+    items_.parentId = w.contactJournal.id;
+    items_.parentField = journal_model.JournalField.ITEMS;
+  }
+
   override void create() {
-    element = <jeditor.Editor scrollarea=AppView.instance().scrollarea.node/>;
+    auto w = world.World.instance();
+
+    element = <jeditor.Editor journal_=w.contactJournal journalItems_=items_
+      journalColl_=world.Table.CONTACT_PAGE itemsColl_=world.Table.PAGE_ITEMS/>;
+  }
+
+  override void enter() {
+    if isEnter { return; }
+    base.enter();
+
+    // TODO: show items loading
+
+    auto w = world.World.instance();
+    w.getPageItems(items_, w.contactJournal.id.value, w.contactJournalNet.table,
+        void () { // success
+      // TODO: hide items loading
+    }, void () { // fail
+      // TODO: hide items loading
+    });
+  }
+
+  override void exit() {
+    if !isEnter { return; }
+
+    base.exit();
   }
 }

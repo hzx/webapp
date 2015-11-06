@@ -4,10 +4,12 @@ import admin.style;
 import apploader;
 import journal.editor as jeditor;
 import journal;
+import journal.model as journal_model;
 import common_views;
 import ui;
 import ui.style as ui_style;
 import world;
+import container;
 
 
 void main() {

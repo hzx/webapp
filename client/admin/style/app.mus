@@ -53,17 +53,17 @@ nav {
 
 
 navMenu {
-  display: none;
+  /* display: none; */
   position: absolute;
-  right: 36px;
-  bottom: 32px;
-  width: 200px;
-  zIndex: 101;
+  left: 16px;
+  bottom: 0;
+  right: 0;
+  zIndex: 11;
 }
 
 navItem {
-  /* float: left; */
-  /* cssFloat: left; */
+  float: left;
+  cssFloat: left;
   /* height: 24px; */
   padding: 6px 16px;
   cursor: pointer;

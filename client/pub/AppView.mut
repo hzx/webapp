@@ -37,12 +37,16 @@ class AppView extends web.View {
 
   override void create() {
     element = <div style=style.app>
-      /* {scrollbar} */
-      /* <div style=style.nav onclick=onNavClick></div> */
-      {navMenu}
-      {content}
-      {footer}
-      /* {scrollarea} */
+      <div style=style.page>
+        <div style=style.pageWrap>
+          /* {scrollbar} */
+          /* <div style=style.nav onclick=onNavClick></div> */
+          {navMenu}
+          {content}
+          {footer}
+          /* {scrollarea} */
+        </div>
+      </div>
     </div>;
 
     /* scrollbar.scrollarea = scrollarea.node; */
